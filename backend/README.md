@@ -7,11 +7,11 @@ RAG-style recommendation engine for matching mentors to call requests.
 ## Setup
 
 ```bash
-pnpm install
+bun install
 cp .env.example .env   # fill in DATABASE_URL with your Neon connection string
-pnpm prisma:migrate    # creates tables
-pnpm seed               # 1 admin, 5 mentors, 10 users + weekly availability
-pnpm dev
+bun prisma:migrate    # creates tables
+bun seed               # 1 admin, 5 mentors, 10 users + weekly availability
+bun dev
 ```
 
 Server runs on `http://localhost:5000` by default.
@@ -36,7 +36,6 @@ Guidance, same domain for Mock Interviews). Availability overlap is computed
 separately and attached to each recommendation.
 
 ## Notes
-
 - No Google OAuth, no Google Calendar. Auth is plain JWT (Bearer token).
 - Meeting links are generated placeholders (`meet.mentorque.dev/...`) — there's
   no real video integration, admins are expected to swap in a real link if this
