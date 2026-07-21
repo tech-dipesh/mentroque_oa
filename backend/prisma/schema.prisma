@@ -1,0 +1,120 @@
+
+generator client {
+  provider        = "prisma-client"
+  output          = "../generated/prisma/"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+// datasource db {
+//   provider   = "postgresql"
+//   extensions = [pgcrypto]
+// }
+
+datasource db {
+  provider   = "postgresql"
+  extensions = [pgcrypto]
+}
+enum Role {
+  USER
+  MENTOR
+  ADMIN
+}
+
+enum CallType {
+  RESUME_REVAMP
+  JOB_MARKET_GUIDANCE
+  MOCK_INTERVIEW
+}
+
+enum RequestStatus {
+  PENDING
+  MATCHED
+  BOOKED
+}
+
+model User {
+  id           String   @id @default(uuid())
+  name         String
+  email        String   @unique
+  password     String
+  role         Role     @default(USER)
+  timezone     String   @default("Asia/Kolkata")
+  tags         String[] @default([])
+  description  String?
+  domain       String?
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  availability      AvailabilitySlot[]
+  callRequests      CallRequest[]        @relation("RequestOwner")
+  mentorBookings    Meeting[]            @relation("MentorMeetings")
+  userBookings      Meeting[]            @relation("UserMeetings")
+  bookedByAdmin     Meeting[]            @relation("AdminMeetings")
+  embedding         MentorEmbedding?
+
+  @@map("users")
+}
+
+model AvailabilitySlot {
+  id        String   @id @default(uuid())
+  ownerId   String   @map("owner_id")
+  dayOfWeek Int      @map("day_of_week")
+  startTime String   @map("start_time")
+  endTime   String   @map("end_time")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  owner User @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+
+  @@unique([ownerId, dayOfWeek, startTime])
+  @@index([ownerId])
+  @@map("availability_slots")
+}
+
+model MentorEmbedding {
+  mentorId  String   @id @map("mentor_id")
+  vector    Float[]
+  sourceText String  @map("source_text")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  mentor User @relation(fields: [mentorId], references: [id], onDelete: Cascade)
+
+  @@map("mentor_embeddings")
+}
+
+model CallRequest {
+  id          String        @id @default(uuid())
+  userId      String        @map("user_id")
+  callType    CallType      @map("call_type")
+  description String
+  status      RequestStatus @default(PENDING)
+  createdAt   DateTime      @default(now()) @map("created_at")
+
+  user    User      @relation("RequestOwner", fields: [userId], references: [id], onDelete: Cascade)
+  meeting Meeting?
+
+  @@index([userId])
+  @@index([status])
+  @@map("call_requests")
+}
+
+model Meeting {
+  id            String   @id @default(uuid())
+  callRequestId String   @unique @map("call_request_id")
+  adminId       String   @map("admin_id")
+  mentorId      String   @map("mentor_id")
+  userId        String   @map("user_id")
+  callType      CallType @map("call_type")
+  dayOfWeek     Int      @map("day_of_week")
+  startTime     String   @map("start_time")
+  endTime       String   @map("end_time")
+  meetLink      String   @map("meet_link")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  callRequest CallRequest @relation(fields: [callRequestId], references: [id], onDelete: Cascade)
+  admin       User        @relation("AdminMeetings", fields: [adminId], references: [id], onDelete: Cascade)
+  mentor      User        @relation("MentorMeetings", fields: [mentorId], references: [id], onDelete: Cascade)
+  user        User        @relation("UserMeetings", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([mentorId])
+  @@index([userId])
+  @@map("meetings")
+}

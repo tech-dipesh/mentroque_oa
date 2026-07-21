@@ -1,0 +1,26 @@
+
+{
+  "compilerOptions": {
+    "lib": ["ESNext", "DOM"],
+    "esModuleInterop": true,
+    "target": "es2023",
+    "module": "Preserve",
+    "moduleResolution": "Bundler",
+    "rootDir": ".",
+    "outDir": "./dist",
+    "strict": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "generated/**/*.ts",
+    "prisma.config.ts"
+  ],
+  "baseUrl": ".",
+  "exclude": ["node_modules"],
+  "paths": {
+    "@/*": ["./src/*"],
+    "@generated/*": ["./generated/*"]
+  }
+}
