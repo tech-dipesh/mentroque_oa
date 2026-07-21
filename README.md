@@ -2,6 +2,8 @@
 
 🧾 Assignment Brief: Mentoring Call Scheduling System
 You will be building a mentoring call scheduling platform with RBAC (Role-Based Access Control) for Users, Mentors, and Admins. The goal is to create an experience that is highly intuitive, similar to Cal.com & acuityscheduling.com 
+
+---------------------
 🎯 Objective & Evaluation Criteria
 You will be given an existing codebase with multiple dependencies, configurations, and middleware.
 This assignment evaluates:
@@ -9,6 +11,8 @@ Your ability to understand an existing repository quickly
 Your skill in modifying systems without breaking compatibility
 Your ability to think from a product perspective
 Your speed in shipping features within constraints
+---------------------
+
 📌 What You Need to Do
 1. Understand the Current Flow
 Here is a video explaining:
@@ -16,6 +20,7 @@ Current flow
 Expected flow
 https://www.tella.tv/video/assignment-brief-mentoring-call-scheduling-system-mentorque-cg2o 
 
+---------------------
 2. Refactor & Implement RBAC
 You may:
 Clean up or replace existing middleware
@@ -28,7 +33,8 @@ Use Supabase or NeonDB
 You are free to design:
 Schema
 Models & DDL
- 3. Core Product Flow (FINAL)
+---------------------
+3. Core Product Flow (FINAL)
 👤 User
 Adds:
 Availability
@@ -48,6 +54,7 @@ Viewing mentor recommendations
 Checking availability overlap
 Booking calls
 
+---------------------
 3 types of calls:
 Resume Revamp: Ideally, we would want a mentor who is from big tech.
 Job Market Guidance: A mentor who is good at communication.
@@ -55,6 +62,7 @@ Mock Interviews: Someone from the same domain as the user.
 
 
 
+---------------------
 
 🤖 4. RAG-Based Recommendation System
 Implement a basic RAG system. RAG implementation is not compulsory as long as the recommendation works fine with normal AI model API calls. 
