@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { AuthProvider } from "./context/AuthContext.js";
 import { ProtectedRoute } from "./components/ProtectedRoute.js";
 import { LandingPage } from "./pages/LandingPage.js";
